@@ -1,9 +1,26 @@
+.streamr-container {
+  margin: 0 auto 2rem;
+}
+
 .mat-card-content p {
   margin: 0;
 }
 
-.mat-list-base .mat-list-item .mat-line {
-  white-space: normal;
+.mat-list-base .mat-list-item {
+  .mat-line {
+    white-space: normal;
+  }
+
+  .mat-h3 {
+    font-weight: 600;
+  }
+
+  min-height: 48px;
+  height: auto !important;
+  background-color: #424242;
+  border-top: 1px solid #646464;
+  border-bottom: 1px solid #212121;
+  padding: .5rem 0;
 }
 
 .loader-container {
