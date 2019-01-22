@@ -588,6 +588,8 @@ MIT
 
 @angular/material/card
 
+@angular/material/progress-spinner
+
 @angular/material/form-field
 
 @angular/material/toolbar
