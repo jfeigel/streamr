@@ -3,13 +3,15 @@ import { HttpClient } from '@angular/common/http';
 
 import * as md5 from 'md5';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private _uri = 'https://accounts.spotify.com/authorize';
   private _client_id = '7565cbdc2f3f497489b9c7703247b3fb';
-  private _redirect_uri = 'http%3A%2F%2Flocalhost%3A4200%2Fcallback';
+  private _redirect_uri = encodeURIComponent(`${environment.host}/callback`);
   private _scope = 'streaming%20user-read-birthdate%20user-read-email%20user-read-private';
   private _response_type = 'token';
 
