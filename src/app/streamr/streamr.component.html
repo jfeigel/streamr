@@ -19,7 +19,7 @@
   </div>
   <div fxFlex="50%" fxLayout="row" fxLayoutAlign="center flex-start">
     <div fxFlex="300px">
-      <mat-card *ngIf="isLoaded">
+      <mat-card *ngIf="isTrackLoaded">
         <img mat-card-image [src]="track.album.image" [alt]="track.album.name" [height]="track.album.dimensions.height"
           [width]="track.album.dimensions.width" />
         <mat-card-content>
@@ -30,4 +30,8 @@
       </mat-card>
     </div>
   </div>
+</div>
+<div class="loader-container" fxLayout="column" fxLayoutAlign="center center" *ngIf="!isPlayerReady">
+  <h2>Initializing Player...</h2>
+  <mat-spinner color="accent"></mat-spinner>
 </div>

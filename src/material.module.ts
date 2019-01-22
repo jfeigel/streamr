@@ -9,6 +9,7 @@ import {
   MatListModule,
   MatSidenavModule,
   MatSnackBarModule,
+  MatProgressSpinnerModule,
   MatToolbarModule
 } from '@angular/material';
 import { NgModule } from '@angular/core';
@@ -25,6 +26,7 @@ import { NgModule } from '@angular/core';
     MatListModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     MatToolbarModule
   ],
   exports: [
@@ -38,6 +40,7 @@ import { NgModule } from '@angular/core';
     MatListModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     MatToolbarModule
   ]
 })

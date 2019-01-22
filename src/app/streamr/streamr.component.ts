@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import * as _ from 'lodash';
@@ -27,17 +27,57 @@ export class StreamrComponent implements OnInit {
       }
     }
   };
-  isLoaded = false;
+  isPlayerReady = false;
+  isTrackLoaded = false;
   results: any[] = [];
   queryField: FormControl = new FormControl();
 
   constructor(
-    private _zone: NgZone,
     private _auth: AuthService,
     private _streamr: StreamrService
   ) { }
 
   ngOnInit() {
+    this._initInput();
+    this._streamr.ready.subscribe(ready => {
+      this._streamr.playerReady.subscribe(device_id => {
+        this.isPlayerReady = true;
+      });
+    });
+  }
+
+  public play(spotify_uri: string): void {
+    this._streamr.play(spotify_uri)
+      .subscribe(
+        data => {
+          this._streamr.playerStateChanged.subscribe(state => {
+            this.isTrackLoaded = true;
+            this._playerStateChanged(state);
+          });
+        },
+        error => console.error(error)
+      );
+  }
+
+  private _playerStateChanged(state) {
+    const current_track = state.track_window.current_track;
+    const current_album = state.track_window.current_track.album;
+    const album_image = current_album.images[0];
+    this.track = {
+      artists: _.map(current_track.artists, 'name'),
+      name: current_track.name,
+      album: {
+        name: current_album.name,
+        image: album_image.url,
+        dimensions: {
+          height: album_image.height,
+          width: album_image.width
+        }
+      }
+    };
+  }
+
+  private _initInput() {
     this.queryField.valueChanges
       .pipe(
         debounceTime(200),
@@ -64,36 +104,5 @@ export class StreamrComponent implements OnInit {
           return formatted_track;
         });
       });
-  }
-
-  public play(spotify_uri: string): void {
-    this._streamr.play(spotify_uri)
-      .subscribe(
-        data => {
-          this._streamr.playerStateChanged.subscribe(state => {
-            this.isLoaded = true;
-            this._zone.run(() => this._playerStateChanged(state));
-          });
-        },
-        error => console.error(error)
-      );
-  }
-
-  private _playerStateChanged(state) {
-    const current_track = state.track_window.current_track;
-    const current_album = state.track_window.current_track.album;
-    const album_image = current_album.images[0];
-    this.track = {
-      artists: _.map(current_track.artists, 'name'),
-      name: current_track.name,
-      album: {
-        name: current_album.name,
-        image: album_image.url,
-        dimensions: {
-          height: album_image.height,
-          width: album_image.width
-        }
-      }
-    };
   }
 }
