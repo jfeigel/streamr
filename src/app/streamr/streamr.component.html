@@ -1,0 +1,31 @@
+<div fxLayout="row" fxLayoutAlign="center flex-start" fxLayoutGap="2rem">
+  <div fxFlex="50%" fxLayout="column" fxLayoutAlign="flex-start center" fxLayoutGap="2rem">
+    <mat-card>
+      <mat-card-content>
+        <mat-form-field>
+          <input [formControl]="queryField" name="queryField" type="text" matInput placeholder="Search">
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+    <mat-list *ngIf="results.length > 0">
+      <mat-list-item *ngFor="let track of results">
+        <img matListAvatar [src]="track.album.image" [alt]="track.album.name">
+        <p class="mat-h3" matLine>{{track.name}}</p>
+        <p matLine><span *ngFor="let artist of track.artists; last as isLast">{{artist}}<span *ngIf="!isLast">, </span></span></p>
+        <p class="mat-small" matLine><i>{{track.album.name}}</i></p>
+        <button mat-icon-button (click)="play(track.uri)" color="accent"><mat-icon>play_circle_filled</mat-icon></button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div fxFlex="50%" fxLayout="column" fxLayoutAlign="flex-start center">
+    <mat-card *ngIf="isLoaded">
+      <img mat-card-image [src]="track.album.image" [alt]="track.album.name" [height]="track.album.dimensions.height"
+        [width]="track.album.dimensions.width" />
+      <mat-card-content>
+        <p class="mat-h3">{{track.name}}</p>
+        <p><span *ngFor="let artist of track.artists; last as isLast">{{artist}}<span *ngIf="!isLast">, </span></span></p>
+        <p class="mat-small"><i>{{track.album.name}}</i></p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
